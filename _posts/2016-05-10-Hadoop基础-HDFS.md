@@ -14,10 +14,12 @@ comments: true
 
 ## 喔！小百科
 * 什么是分布式文件系统？
-> Filesystems that manage the storage **across a network of machines** are called distributed filesystems
+
+> > Filesystems that manage the storage **across a network of machines** are called distributed filesystems
 
 * 	什么是HDFS？
-> HDFS is a filesystem designed for storing **very large** files with **streaming data access patterns** (write-once, read-many-times), running on clusters of **commodity hardware**.
+
+> > HDFS is a filesystem designed for storing **very large** files with **streaming data access patterns** (write-once, read-many-times), running on clusters of **commodity hardware**.
 
 ## 些微进入HDFS
 
@@ -26,7 +28,7 @@ comments: true
 * 区块：HDFS也有区块的概念，文件也是按*独立*区块存储的。但是非常大，默认是128M。
 * 那么，为何这个区块如此之大？为了最小化寻址时间。
 
-> If the block is large enough, the time it takes to transfer the data from the disk can be significantly longer than the time to seek to the start of the block.
+> > If the block is large enough, the time it takes to transfer the data from the disk can be significantly longer than the time to seek to the start of the block.
 
 ### Namenodes & Datanodes
 
@@ -37,7 +39,8 @@ HDFS 集群以Master-Worker的工作模式运行。分别对应了Namenodes和Da
   2. edit log
 
   **但是，注意！**
-> however, it does not store block locations persistently, because this information is reconstructed from datanodes when the system starts.
+  
+> > however, it does not store block locations persistently, because this information is reconstructed from datanodes when the system starts.
 
 * Datanodes（身体）: 脏活累活全它干！它们负责存储和取回区块内的信息。并且它们定期向namenodes汇报它们存储的区块信息（以list of blocks的形式）。
 
@@ -64,5 +67,5 @@ Hadoop 2.x支持添加多个namenodes，分别负责文件系统的一部分（*
 	
 ## Hadoop 文件系统
 <figure>
-	<a href="http://breakdimbo.github.io/images/Hadoop-Filesystem.png"><img src="http://breakdimbo.github.io/images/Hadoop-Filesystem.png"></a>
+	<a href="http://breakdimbo.github.io/images/Hadoop-Filesystem"><img src="http://breakdimbo.github.io/images/Hadoop-Filesystem"></a>
 </figure>
