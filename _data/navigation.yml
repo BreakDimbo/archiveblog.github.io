@@ -1,0 +1,19 @@
+# Site navigation links
+
+- title: Home
+  url: /
+
+- title: Java
+  url: /java/
+  
+- title: Linux
+  url: /linux/
+  
+- title: Hadoop
+  url: /hadoops
+  
+- title: Blog
+  url: /posts/
+  
+- title: Sina Weibo
+  url: http://weibo.com/579955794
