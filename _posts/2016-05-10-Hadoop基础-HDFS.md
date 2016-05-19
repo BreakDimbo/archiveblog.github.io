@@ -14,7 +14,8 @@ comments: true
 
 ## 喔！小百科
 * 什么是分布式文件系统？
- > Filesystems that manage the storage **across a network of machines** are called distributed filesystems
+
+> > Filesystems that manage the storage **across a network of machines** are called distributed filesystems
 
 * 	什么是HDFS？
 
