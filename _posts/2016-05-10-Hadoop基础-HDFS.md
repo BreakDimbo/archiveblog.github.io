@@ -67,5 +67,5 @@ Hadoop 2.x支持添加多个namenodes，分别负责文件系统的一部分（*
 	
 ## Hadoop 文件系统
 <figure>
-	<a href="http://breakdimbo.github.io/images/Hadoop-Filesystem"><img src="http://breakdimbo.github.io/images/Hadoop-Filesystem"></a>
+	<a href="http://breakdimbo.github.io/images/Hadoop-Filesystem.png"><img src="http://breakdimbo.github.io/images/Hadoop-Filesystem.png"></a>
 </figure>
