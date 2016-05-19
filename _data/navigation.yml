@@ -1,4 +1,13 @@
 # Site navigation links
 
-- title: Projects
-  url: /projects/
+- title: Blog
+  url: /posts/
+  
+- title: Linux
+  url: /linux/
+  
+- title: Java
+  url: /java/
+  
+- title: Big Data
+  url: /bigData/
