@@ -4,7 +4,7 @@ title: "蹲马步"
 date: 2016-05-19
 excerpt: "关于Hadoop的一些基础知识。"
 tags: [Blocks, Namenodes, Datanedes, CMD, Java interface, Data Flow, Distcp－并行拷贝]
-hadoop: true
+bigData: true
 comments: true
 ---
 
