@@ -1,3 +1,82 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.5">Jekyll</generator><link href="http://breakdimbo.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="http://breakdimbo.github.io/" rel="alternate" type="text/html" /><updated>2016-05-19T21:32:08+08:00</updated><id>http://breakdimbo.github.io/</id><title>Break</title><subtitle>For Playing, Finding and Thinking.</subtitle><entry><title>something</title><link href="http://breakdimbo.github.io/sipirit/" rel="alternate" type="text/html" title="something" /><published>2016-05-19T00:00:00+08:00</published><updated>2016-05-19T00:00:00+08:00</updated><id>http://breakdimbo.github.io/sipirit</id><content type="html" xml:base="http://breakdimbo.github.io/sipirit/">&lt;p&gt;try&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.5">Jekyll</generator><link href="http://breakdimbo.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="http://breakdimbo.github.io/" rel="alternate" type="text/html" /><updated>2016-05-20T00:08:19+08:00</updated><id>http://breakdimbo.github.io/</id><title>Break</title><subtitle>For Playing, Finding and Thinking.</subtitle><entry><title>蹲马步</title><link href="http://breakdimbo.github.io/Hadoop%E5%9F%BA%E7%A1%80-HDFS/" rel="alternate" type="text/html" title="蹲马步" /><published>2016-05-19T00:00:00+08:00</published><updated>2016-05-19T00:00:00+08:00</updated><id>http://breakdimbo.github.io/Hadoop基础-HDFS</id><content type="html" xml:base="http://breakdimbo.github.io/Hadoop%E5%9F%BA%E7%A1%80-HDFS/">&lt;h1 id=&quot;hadoop&quot;&gt;Hadoop——分布式文件系统&lt;/h1&gt;
 
-&lt;h2 id=&quot;spiritual&quot;&gt;Spiritual&lt;/h2&gt;</content><summary>Spirit Corner</summary></entry></feed>
+&lt;h2 id=&quot;section&quot;&gt;喔！小百科&lt;/h2&gt;
+
+&lt;p&gt;什么是分布式文件系统？&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Filesystems that manage the storage &lt;strong&gt;across a network of machines&lt;/strong&gt; are called distributed filesystems&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;什么是HDFS？&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;HDFS is a filesystem designed for storing &lt;strong&gt;very large&lt;/strong&gt; files with &lt;strong&gt;streaming data access patterns&lt;/strong&gt; (write-once, read-many-times), running on clusters of &lt;strong&gt;commodity hardware&lt;/strong&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;hdfs&quot;&gt;些微进入HDFS&lt;/h2&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;区块&lt;/h3&gt;
+
+&lt;p&gt;HDFS也有区块的概念，文件也是按&lt;em&gt;独立&lt;/em&gt;区块存储的。但是非常大，默认是128M。那么，为何这个区块如此之大?&lt;br /&gt;
+&lt;em&gt;为了最小化寻址时间。&lt;/em&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;If the block is large enough, the time it takes to transfer the data from the disk can be significantly longer than the time to seek to the start of the block.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;namenodes--datanodes&quot;&gt;Namenodes &amp;amp; Datanodes&lt;/h3&gt;
+
+&lt;p&gt;HDFS集群以Master-Worker的工作模式运行。分别对应了Namenodes和Datanodes。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Namenodes（大脑）: 管理文件系统的&lt;em&gt;名域&lt;/em&gt;（namespace）。&lt;em&gt;名域&lt;/em&gt;里面存储了这个文件系统的文件结构以及全部文件和目录的元数据。因此namenode可以定位一个给定文件的所有区块所在的datanodoes。&lt;em&gt;名域&lt;/em&gt;信息以两种形式永久的保存在本地硬盘上：
+    &lt;ol&gt;
+      &lt;li&gt;namespace image&lt;/li&gt;
+      &lt;li&gt;edit log&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;但是，注意！&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;however, it does not store block locations persistently, because this information is reconstructed from datanodes when the system starts.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Datanodes（身体）: 脏活累活全它干！它们负责存储和取回区块内的信息。并且它们定期向namenodes汇报它们存储的区块信息（以list of blocks的形式）。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;hdfs-&quot;&gt;HDFS 「联邦」&lt;/h3&gt;
+
+&lt;p&gt;Hadoop 2.x支持添加多个namenodes，分别负责文件系统的一部分（&lt;em&gt;各部分相互独立&lt;/em&gt;），从而增加Datanodes的数量（数据存储量），并防止数据全部丢失。&lt;/p&gt;
+
+&lt;h2 id=&quot;shell&quot;&gt;一些常用Shell命令&lt;/h2&gt;
+
+&lt;p&gt;首先，注意以下两个命令的区别：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;hadoop fs - 可用于本地和HDFS上的文件&lt;/li&gt;
+  &lt;li&gt;hdfs dfs - 只可用于操作hdfs上的文件&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;以下是一些命令：&lt;br /&gt;
+从本地向HDFS拷贝文件&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;% hadoop fs -copyFromLocal input/docs/quangle.txt  
+\ hdfs://localhost/user/tom/quangle.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;创建目录，列出HDFS根目录下文件：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;% hadoop fs -mkdir books
+% hadoop fs -ls .
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;hadoop-&quot;&gt;Hadoop 文件系统&lt;/h2&gt;
+&lt;figure&gt;
+	&lt;a href=&quot;http://breakdimbo.github.io/images/Hadoop-Filesystem.png&quot;&gt;&lt;img src=&quot;http://breakdimbo.github.io/images/Hadoop-Filesystem.png&quot; /&gt;&lt;/a&gt;
+&lt;/figure&gt;</content><category term="Blocks" /><category term="Namenodes" /><category term="Datanedes" /><category term="CMD" /><category term="Java interface" /><category term="Data Flow" /><category term="Distcp－并行拷贝" /><summary>关于Hadoop的一些基础知识。</summary></entry></feed>
