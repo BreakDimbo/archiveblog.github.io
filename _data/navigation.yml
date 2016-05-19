@@ -1,7 +1,7 @@
 # Site navigation links
 
-- title: Home
-  url: /
+- title: Blog
+  url: /posts/
 
 - title: Java
   url: /java/
@@ -10,10 +10,5 @@
   url: /linux/
   
 - title: Big Data
-  url: /big data
+  url: /bigData
   
-- title: Blog
-  url: /posts/
-  
-- title: Sina Weibo
-  url: http://weibo.com/579955794

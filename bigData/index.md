@@ -1,5 +1,5 @@
 ---
-layout: big data
+layout: bigData
 title: Big Data
 excerpt: "Hadoop Learning"
 ---
