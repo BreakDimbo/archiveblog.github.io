@@ -1,9 +1,8 @@
 ---
 layout: post
-title: "精神角落"
-date: 2016-5-19
-excerpt: "精神角落"
-comments: true
+title: "Post with Image Feature"
+date: 2012-05-23
+excerpt: "A ton of text to test readability with image feature."
 ---
 
 #精神角落
