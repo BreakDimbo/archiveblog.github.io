@@ -14,11 +14,9 @@ comments: true
 
 ## 喔！小百科
 * 什么是分布式文件系统？
-
 > Filesystems that manage the storage **across a network of machines** are called distributed filesystems
 
 * 	什么是HDFS？
-
 > HDFS is a filesystem designed for storing **very large** files with **streaming data access patterns** (write-once, read-many-times), running on clusters of **commodity hardware**.
 
 ## 些微进入HDFS
@@ -39,7 +37,6 @@ HDFS 集群以Master-Worker的工作模式运行。分别对应了Namenodes和Da
   2. edit log
 
   **但是，注意！**
-
 > however, it does not store block locations persistently, because this information is reconstructed from datanodes when the system starts.
 
 * Datanodes（身体）: 脏活累活全它干！它们负责存储和取回区块内的信息。并且它们定期向namenodes汇报它们存储的区块信息（以list of blocks的形式）。
@@ -67,4 +64,4 @@ Hadoop 2.x支持添加多个namenodes，分别负责文件系统的一部分（*
 	
 ## Hadoop 文件系统
 <figure>
-	<a href="/images/Hadoop-Filesystem.png"><img src=/images/Hadoop-Filesystem.png"></a>
+	<a href="http://breakdimbo.github.io/images/Hadoop-Filesystem.png"></a>
