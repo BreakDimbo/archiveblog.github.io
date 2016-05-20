@@ -116,17 +116,14 @@ public FSDataInputStream open(Path f) throws IOExceptionpublic abstract FSDataI
 
 1. 调整和和获取*流*的位置：
 
-	~~~java
-	void seek(long pos) throws IOException; 
-	long getPos() throws IOException;
-	~~~
+		void seek(long pos) throws IOException; 
+		 long getPos() throws IOException;
+
 		
 2. 在一个给定*长度内* (at a given offset) 读取文件的一部分：
-
-	~~~java		
-	public int read(long position, byte[] buffer, int offset, int length) throws IOException;	public void readFully(long position, byte[] buffer, int offset, int length) throws IOException;
-	public void readFully(long position, byte[] buffer) throws IOException; 
-	~~~
+	
+		public int read(long position, byte[] buffer, int offset, int length) throws IOException;		 public void readFully(long position, byte[] buffer, int offset, int length) throws IOException;
+		 public void readFully(long position, byte[] buffer) throws IOException; 
 	
 读取数据的代码示例：
 
@@ -148,20 +145,15 @@ public class FileSystemDoubleCat {	public static void main(String[] args) throw
 
 1. 创建新文件并写入，create()方法会自动创建父目录，需要注意：
 
-	~~~java
-	public FSDataOutputStream create(Path f) throws IOException
-	~~~
+		public FSDataOutputStream create(Path f) throws IOException
 	
 2. 在已有文件中进行写入：
 
-	~~~java
-	public FSDataOutputStream append(Path f) throws IOException
-	~~~
+		public FSDataOutputStream append(Path f) throws IOException
 	
 3. 回调函数，当数据被写入 datanodes 时，你的程序会得到通知：
-	~~~java
-	public void progress()
-	~~~	
+
+		public void progress()
 	
 具体实现与写入类似。
 
@@ -208,23 +200,17 @@ stat.getPermission();
 
 1. 直接输入 Path 作为参数，如果 Path 指向文件，则返回该文件的 FileStatus，如果指向目录，则返回目录内所有文件/目录的 FileStatus 对象组成的数组。
 
-	~~~java
-	public FileStatus[] listStatus(Path f) throws IOException
-	~~~
+		public FileStatus[] listStatus(Path f) throws IOException
 		
 2. 参数加上 PathFilter 类，可以进行文件目录匹配的限制。
 
-	~~~java
-	public FileStatus[] listStatus(Path f, PathFilter filter) 
-		throws IOException
-	~~~		
+		public FileStatus[] listStatus(Path f, PathFilter filter) 
+			throws IOException	
 	
 3. 参数为 Path[ ]，常用于构建来自文件系统不同部分的文件整合处理。
 
-	~~~java
-	public FileStatus[] listStatus(Path[] files) throws IOException	public FileStatus[] listStatus(Path[] files, PathFilter filter) 
-		throws IOException
-	~~~	
+		public FileStatus[] listStatus(Path[] files) throws IOException		 public FileStatus[] listStatus(Path[] files, PathFilter filter) 
+			throws IOException
 	
 代码示例：
 
