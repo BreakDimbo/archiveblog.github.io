@@ -74,7 +74,7 @@ Hadoop 2.x 支持添加多个 namenodes，分别负责文件系统的一部分�
 	<a href="http://breakdimbo.github.io/images/Hadoop-Filesystem.png"><img src="http://breakdimbo.github.io/images/Hadoop-Filesystem.png"></a>
 </figure>
 
-# 5.Java 接口
+# 5. Java 接口
 > URL；FileSystem; FSDataInputStream; FSDataOutputStream; FileStatus; PathFilter
 
 ## 5.1 使用 Hadoop URL 读取数据
@@ -105,8 +105,8 @@ public static FileSystem get(URI uri, Configuration conf, String user) throws IO
 
 ### 读取数据
 
-获取 **FileSystem** 实例后，在实例上调用 .path(Path p) 方法，返回 FSDataInputStream 类型。  
-.path() 方法参数如下：
+获取 **FileSystem** 实例后，在实例上调用 .open(Path p) 方法，返回 FSDataInputStream 类型。  
+.open() 方法参数如下：
 
 ~~~java
 public FSDataInputStream open(Path f) throws IOExceptionpublic abstract FSDataInputStream open(Path f, int bufferSize) throws IOException
@@ -282,4 +282,55 @@ public boolean delete(Path f, boolean recursive) throws IOException
 # 6. 数据流
 > 输入流；输出流；Coherence Model
 
-## 6.1 文件的读取
+## 6.1 文件的读取过程
+
+
+<figure>
+	<a href="http://breakdimbo.github.io/images/Reading-Data-Process.png"><img src="http://breakdimbo.github.io/images/Reading-Data-Process.png"></a>
+</figure>
+
+如何选取距离上最近对datanode进行文件的读取？  
+Network Topology and Hadoop——以两个节点间对带宽作为衡量标准
+> For example, imagine a node n1 on rack r1 in data center d1. This can be represented as /d1/r1/n1. Using this notation, here are the distances for the four scenarios:
+
+> • distance(/d1/r1/n1, /d1/r1/n1) = 0 (processes on the same node)
+> 
+> • distance(/d1/r1/n1, /d1/r1/n2) = 2 (different nodes on the same rack)
+> 
+> • distance(/d1/r1/n1,/d1/r2/n3)=4(nodesondifferentracksinthesamedatacenter) 
+> 
+> • distance(/d1/r1/n1, /d2/r3/n4) = 6 (nodes in different data centers)
+
+## 6.2 文件的写入过程
+
+
+<figure>
+	<a href="http://breakdimbo.github.io/images/Writing-Data-Process.png"><img src="http://breakdimbo.github.io/images/Writing-Data-Process.png"></a>
+</figure>
+
+如何选择副本对放置节点？——需要平衡可靠性以及读写带宽。
+
+>Hadoop’s default strategy is to place the first replica on the same node as the client (for clients running outside the cluster, a node is chosen at random, although the system tries not to pick nodes that are too full or too busy). The second replica is placed on a different rack from the first (off-rack), chosen at random. The third replica is placed on the same rack as the second, but on a different node chosen at random. Further replicas are placed on random nodes in the cluster, although the system tries to avoid placing too many replicas on the same rack.
+
+
+## 6.3 Coherence Model
+
+out.flush()  
+out.hflush()  
+out.sync()  
+
+# 7 并行拷贝——distcp
+
+复制文件/目录：
+
+	% hadoop distcp file1 file2
+	% hadoop distcp dir1 dir2
+	
+同步两个文件/目录：
+	
+	% hadoop distcp -update dir1 dir2
+	
+将集群1备份到集群2上：
+
+	% hadoop distcp -update -delete -p hdfs://namenode1/foo hdfs://namenode2/foo
+	
