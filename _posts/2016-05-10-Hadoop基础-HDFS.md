@@ -105,7 +105,7 @@ Hadoop 2.x 支持添加多个 namenodes，分别负责文件系统的一部分�
 关于 FSDateInputStream 其中包含了两类方法
 
 1. 调整和和获取*流*的位置：
-		
+
 		void seek(long pos) throws IOException; 
 		long getPos() throws IOException;
 		
