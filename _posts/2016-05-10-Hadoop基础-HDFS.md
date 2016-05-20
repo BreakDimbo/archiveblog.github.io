@@ -107,12 +107,13 @@ Hadoop 2.x 支持添加多个 namenodes，分别负责文件系统的一部分�
 1. 调整和和获取*流*的位置：
 
 		void seek(long pos) throws IOException; 
-		long getPos() throws IOException;
+		 long getPos() throws IOException;
 		
 2. 在一个给定*长度内* (at a given offset) 读取文件的一部分：
 
-		public int read(long position, byte[] buffer, int offset, int length) throws IOException;		public void readFully(long position, byte[] buffer, int offset, int length) throws IOException;
-		public void readFully(long position, byte[] buffer) throws IOException; 
+		
+		public int read(long position, byte[] buffer, int offset, int length) throws IOException;		 public void readFully(long position, byte[] buffer, int offset, int length) throws IOException;
+		 public void readFully(long position, byte[] buffer) throws IOException; 
 			
 读取数据的代码示例：
 
