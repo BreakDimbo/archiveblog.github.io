@@ -91,8 +91,7 @@ Hadoop 2.x 支持添加多个 namenodes，分别负责文件系统的一部分�
 使用 FileSystem.get() 方法获取 FileSystem instance。方法参数如下：
 	
 	public static FileSystem get(Configuration conf) throws IOException	public static FileSystem get(URI uri, Configuration conf) throws IOException 
-	public static FileSystem get(URI uri, Configuration conf, String user)
-		throws IOException
+	public static FileSystem get(URI uri, Configuration conf, String user) throws IOException
 			
 其中 URI 类似 Hadoop 的 Path。
 
@@ -112,7 +111,7 @@ Hadoop 2.x 支持添加多个 namenodes，分别负责文件系统的一部分�
 		
 2. 在一个给定*长度内* (at a given offset) 读取文件的一部分：
 
-		public int read(long position, byte[] buffer, int offset, int length)			throws IOException;		public void readFully(long position, byte[] buffer, int offset, int length)			throws IOException;
+		public int read(long position, byte[] buffer, int offset, int length) throws IOException;		public void readFully(long position, byte[] buffer, int offset, int length) throws IOException;
 		public void readFully(long position, byte[] buffer) throws IOException; 
 			
 读取数据的代码示例：
