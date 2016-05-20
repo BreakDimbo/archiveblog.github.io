@@ -291,6 +291,7 @@ public boolean delete(Path f, boolean recursive) throws IOException
 
 如何选取距离上最近对datanode进行文件的读取？  
 Network Topology and Hadoop——以两个节点间对带宽作为衡量标准
+
 > For example, imagine a node n1 on rack r1 in data center d1. This can be represented as /d1/r1/n1. Using this notation, here are the distances for the four scenarios:
 
 > • distance(/d1/r1/n1, /d1/r1/n1) = 0 (processes on the same node)
