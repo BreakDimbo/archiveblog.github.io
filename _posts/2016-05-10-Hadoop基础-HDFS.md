@@ -59,12 +59,16 @@ Hadoop 2.x 支持添加多个 namenodes，分别负责文件系统的一部分�
 以下是一些命令：  
 从本地向 HDFS 拷贝文件
 
-	% hadoop fs -copyFromLocal input/docs/quangle.txt  
-	\ hdfs://localhost/user/tom/quangle.txt
+~~~java
+% hadoop fs -copyFromLocal input/docs/quangle.txt  
+\ hdfs://localhost/user/tom/quangle.txt
+~~~
 
 创建目录，列出 HDFS 根目录下文件：
 
-	% hadoop fs -mkdir books	% hadoop fs -ls .
+~~~java
+% hadoop fs -mkdir books% hadoop fs -ls .
+~~~
 	
 ## 4. Hadoop 文件系统
 <figure>
@@ -73,25 +77,29 @@ Hadoop 2.x 支持添加多个 namenodes，分别负责文件系统的一部分�
 
 ## 5.Java 接口
 
-### 使用 Hadoop URL 读取数据
+### 5.1 使用 Hadoop URL 读取数据
 
 使用 java.net.URL 对象来打开一个 stream 并从中读取数据。代码实现如下：
 
-	public class URLCat {		static {			URL.setURLStreamHandlerFactory(newFsUrlStreamHandlerFactory());		}		public static void main(String[] args) 
-			throws Exception { InputStream in = null;			try {				in = new URL(args[0]).openStream();				IOUtils.copyBytes(in, System.out, 4096, false); } 
-			finally {      			IOUtils.closeStream(in);    		}		} 
-	}
+~~~java
+public class URLCat {	static {		URL.setURLStreamHandlerFactory(newFsUrlStreamHandlerFactory());	}	public static void main(String[] args) 
+		throws Exception { InputStream in = null;		try {			in = new URL(args[0]).openStream();			IOUtils.copyBytes(in, System.out, 4096, false); } 
+		finally {     		IOUtils.closeStream(in);   		}	} 
+}
+~~~
 
 注意：需要使用 **URL.setURLStreamFactory()** 方法来获得对 URL 进行设置。该方法对于每个 JVM 只能调用一次。所以一般是静态的，而且*如果你的程序的其他部分调用了这个方法，那么你就不能使用它从 Hadoop 读取数据*。
 
-### 5.1 使用 FileSystem API 读写数据
+### 5.2 使用 FileSystem API 读写数据
 
 获取 FileSystem 实例：
 
 使用 FileSystem.get() 方法获取 FileSystem instance。方法参数如下：
-	
-	public static FileSystem get(Configuration conf) throws IOException	public static FileSystem get(URI uri, Configuration conf) throws IOException 
-	public static FileSystem get(URI uri, Configuration conf, String user) throws IOException
+
+~~~java
+public static FileSystem get(Configuration conf) throws IOExceptionpublic static FileSystem get(URI uri, Configuration conf) throws IOException 
+public static FileSystem get(URI uri, Configuration conf, String user) throws IOException
+~~~
 			
 其中 URI 类似 Hadoop 的 Path。
 
@@ -100,32 +108,39 @@ Hadoop 2.x 支持添加多个 namenodes，分别负责文件系统的一部分�
 获取 **FileSystem** 实例后，在实例上调用 .path(Path p) 方法，返回 FSDataInputStream 类型。  
 .path() 方法参数如下：
 
-	public FSDataInputStream open(Path f) throws IOException	public abstract FSDataInputStream open(Path f, int bufferSize) throws IOException
+~~~java
+public FSDataInputStream open(Path f) throws IOExceptionpublic abstract FSDataInputStream open(Path f, int bufferSize) throws IOException
+~~~
 	
 关于 FSDateInputStream 其中包含了两类方法
 
 1. 调整和和获取*流*的位置：
 
-		void seek(long pos) throws IOException; 
-		 long getPos() throws IOException;
+	~~~java
+	void seek(long pos) throws IOException; 
+	long getPos() throws IOException;
+	~~~
 		
 2. 在一个给定*长度内* (at a given offset) 读取文件的一部分：
 
-		
-		public int read(long position, byte[] buffer, int offset, int length) throws IOException;		 public void readFully(long position, byte[] buffer, int offset, int length) throws IOException;
-		 public void readFully(long position, byte[] buffer) throws IOException; 
-			
+	~~~java		
+	public int read(long position, byte[] buffer, int offset, int length) throws IOException;	public void readFully(long position, byte[] buffer, int offset, int length) throws IOException;
+	public void readFully(long position, byte[] buffer) throws IOException; 
+	~~~
+	
 读取数据的代码示例：
 
-	public class FileSystemDoubleCat {		public static void main(String[] args) throws Exception { 
-			String uri = args[0];			Configuration conf = new Configuration();			FileSystem fs = FileSystem.get(URI.create(uri), conf);
-			FSDataInputStream in = null;			try {				in = fs.open(new Path(uri)); 
-				IOUtils.copyBytes(in, System.out, 4096, false); 
-				in.seek(0); // go back to the start of the file
-				IOUtils.copyBytes(in, System.out, 4096, false);			} 
-			finally { 
-				IOUtils.closeStream(in);			} 
-		}	}
+~~~java
+public class FileSystemDoubleCat {	public static void main(String[] args) throws Exception { 
+		String uri = args[0];		Configuration conf = new Configuration();		FileSystem fs = FileSystem.get(URI.create(uri), conf);
+		FSDataInputStream in = null;		try {			in = fs.open(new Path(uri)); 
+			IOUtils.copyBytes(in, System.out, 4096, false); 
+			in.seek(0); // go back to the start of the file
+			IOUtils.copyBytes(in, System.out, 4096, false);		} 
+		finally { 
+			IOUtils.closeStream(in);		} 
+	}}
+~~~
 	
 #### 写出数据
 
@@ -133,51 +148,59 @@ Hadoop 2.x 支持添加多个 namenodes，分别负责文件系统的一部分�
 
 1. 创建新文件并写入，create()方法会自动创建父目录，需要注意：
 
-		public FSDataOutputStream create(Path f) throws IOException
-		
+	~~~java
+	public FSDataOutputStream create(Path f) throws IOException
+	~~~
+	
 2. 在已有文件中进行写入：
 
-		public FSDataOutputStream append(Path f) throws IOException
-		
+	~~~java
+	public FSDataOutputStream append(Path f) throws IOException
+	~~~
+	
 3. 回调函数，当数据被写入 datanodes 时，你的程序会得到通知：
-
-		public void progress()
-		
+	~~~java
+	public void progress()
+	~~~	
+	
 具体实现与写入类似。
 
-### 5.2 建立目录
+### 5.3 建立目录
 
 获取 **FileSystem** 实例后，可以使用如下方法创建目录：
 
-	public boolean mkdirs(Path f) throws IOException
-
+~~~java
+public boolean mkdirs(Path f) throws IOException
+~~~
 这个方法会创建所有的父目录，如果它们不存在。
 
-### *5.3 文件系统的查询*
+### *5.4 文件系统的查询*
 
 #### 文件/目录状态查询——FileStatus类
 
 可以查询文件/目录的文件长度，副本数量，修改时间，拥有者，权限信息，区块大小。代码示例如下：
 
-	FileSystem fs = FileSystem.get(new Configuration());
-	Path file = new Path("/dir/file");
-	//判断文件是否存在
-	fs.exists(file);					
-	FileStatus stat = fs.getFileStatus(file);
-	stat.getPath();
-	stat.isDirectory();	
-	//返回 long		
-	stat.getLen();		
-	//返回 Millis			
-	stat.getModificationTime();	
-	//返回 short
-	stat.getReplication();			
-	//返回 long
-	stat.getBlockSize();		
-	//返回	String	
-	stat.getOwner();					
-	stat.getGroup();					
-	stat.getPermission();			
+~~~java
+FileSystem fs = FileSystem.get(new Configuration());
+Path file = new Path("/dir/file");
+//判断文件是否存在
+fs.exists(file);					
+FileStatus stat = fs.getFileStatus(file);
+stat.getPath();
+stat.isDirectory();	
+//返回 long		
+stat.getLen();		
+//返回 Millis			
+stat.getModificationTime();	
+//返回 short
+stat.getReplication();			
+//返回 long
+stat.getBlockSize();		
+//返回	String	
+stat.getOwner();					
+stat.getGroup();					
+stat.getPermission();			
+~~~
 
 #### 列出目录内容——listStatus 方法
 
@@ -185,18 +208,24 @@ Hadoop 2.x 支持添加多个 namenodes，分别负责文件系统的一部分�
 
 1. 直接输入 Path 作为参数，如果 Path 指向文件，则返回该文件的 FileStatus，如果指向目录，则返回目录内所有文件/目录的 FileStatus 对象组成的数组。
 
-		public FileStatus[] listStatus(Path f) throws IOException
+	~~~java
+	public FileStatus[] listStatus(Path f) throws IOException
+	~~~
 		
 2. 参数加上 PathFilter 类，可以进行文件目录匹配的限制。
 
-		public FileStatus[] listStatus(Path f, PathFilter filter) 
-			throws IOException
-		
+	~~~java
+	public FileStatus[] listStatus(Path f, PathFilter filter) 
+		throws IOException
+	~~~		
+	
 3. 参数为 Path[ ]，常用于构建来自文件系统不同部分的文件整合处理。
 
-		public FileStatus[] listStatus(Path[] files) throws IOException		 public FileStatus[] listStatus(Path[] files, PathFilter filter) 
-			throws IOException
-			
+	~~~java
+	public FileStatus[] listStatus(Path[] files) throws IOException	public FileStatus[] listStatus(Path[] files, PathFilter filter) 
+		throws IOException
+	~~~	
+	
 代码示例：
 
 ~~~java
@@ -215,7 +244,7 @@ globStatus() 方法结合通配符进行使用。参数如下：
 
 ~~~java
 public FileStatus[] globStatus(Path pathPattern) throws IOException 
-public FileStatus[] globStatus(Path pathPattern, PathFilter filter)	throws IOException
+public FileStatus[] globStatus(Path pathPattern, PathFilter filter) 	throws IOException
 ~~~
 
 通配符如下表：
@@ -249,13 +278,17 @@ public FileStatus[] globStatus(Path pathPattern, PathFilter filter)	throws IOEx
 
 以下是示例：
 
-	public class RegexExcludePathFilter implements PathFilter {		private final String regex;		public RegexExcludePathFilter(String regex) { 
-			this.regex = regex;		}		public boolean accept(Path path) { 
-			return !path.toString().matches(regex);		} 
-	}
+~~~java
+public class RegexExcludePathFilter implements PathFilter {	private final String regex;	public RegexExcludePathFilter(String regex) { 
+		this.regex = regex;	}	public boolean accept(Path path) { 
+		return !path.toString().matches(regex);	} 
+}
+~~~
 	
 **注意：**路径过滤器仅能对在**文件名**上进行操作。
 
 #### 删除文件或者目录
 
-	public boolean delete(Path f, boolean recursive) throws IOException
+~~~java
+public boolean delete(Path f, boolean recursive) throws IOException
+~~~
