@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "蹲马步"
+title: "蹲马步: Hadoop——分布式文件系统"
 date: 2016-05-19
 excerpt: "关于Hadoop的一些基础知识。"
 tags: [Blocks, Namenodes, Datanedes, CMD, Java interface, Data Flow, Distcp－并行拷贝]
@@ -8,11 +8,10 @@ bigData: true
 comments: true
 ---
 
-# Hadoop——分布式文件系统
 
 
 
-## 1. 喔！小百科
+# 1. 喔！小百科
 
 什么是分布式文件系统？
 
@@ -22,16 +21,16 @@ comments: true
 
 > HDFS is a filesystem designed for storing **very large** files with **streaming data access patterns** (write-once, read-many-times), running on clusters of **commodity hardware**.
 
-## 2. 些微进入 HDFS
+# 2. 些微进入 HDFS
 
-### 2.1 区块
+## 2.1 区块
 
 HDFS 也有区块的概念，文件也是按*独立*区块存储的。但是非常大，默认是128M。那么，为何这个区块如此之大?  
 *为了最小化寻址时间。*
 
 > If the block is large enough, the time it takes to transfer the data from the disk can be significantly longer than the time to seek to the start of the block.
 
-### 2.2 Namenodes 和 Datanodes
+## 2.2 Namenodes 和 Datanodes
 
 HDFS 集群以 Master-Worker 的工作模式运行。分别对应了 Namenodes 和 Datanodes。  
 
@@ -45,11 +44,11 @@ HDFS 集群以 Master-Worker 的工作模式运行。分别对应了 Namenodes �
 
 * Datanodes（身体）: 脏活累活全它干！它们负责存储和取回区块内的信息。并且它们定期向namenodes汇报它们存储的区块信息（以 list of blocks 的形式）。
 
-### 2.3 HDFS 「联邦」
+## 2.3 HDFS 「联邦」
 
 Hadoop 2.x 支持添加多个 namenodes，分别负责文件系统的一部分（*各部分相互独立*），从而增加 Datanodes 的数量（数据存储量），并防止数据全部丢失。
 
-## 3. 一些常用Shell命令
+# 3. 一些常用Shell命令
 
 首先，注意以下两个命令的区别：
 
@@ -70,14 +69,15 @@ Hadoop 2.x 支持添加多个 namenodes，分别负责文件系统的一部分�
 % hadoop fs -mkdir books% hadoop fs -ls .
 ~~~
 	
-## 4. Hadoop 文件系统
+# 4. Hadoop 文件系统
 <figure>
 	<a href="http://breakdimbo.github.io/images/Hadoop-Filesystem.png"><img src="http://breakdimbo.github.io/images/Hadoop-Filesystem.png"></a>
 </figure>
 
-## 5.Java 接口
+# 5.Java 接口
+> URL；FileSystem; FSDataInputStream; FSDataOutputStream; FileStatus; PathFilter
 
-### 5.1 使用 Hadoop URL 读取数据
+## 5.1 使用 Hadoop URL 读取数据
 
 使用 java.net.URL 对象来打开一个 stream 并从中读取数据。代码实现如下：
 
@@ -90,7 +90,7 @@ public class URLCat {	static {		URL.setURLStreamHandlerFactory(newFsUrlStreamH
 
 注意：需要使用 **URL.setURLStreamFactory()** 方法来获得对 URL 进行设置。该方法对于每个 JVM 只能调用一次。所以一般是静态的，而且*如果你的程序的其他部分调用了这个方法，那么你就不能使用它从 Hadoop 读取数据*。
 
-### 5.2 使用 FileSystem API 读写数据
+## 5.2 使用 FileSystem API 读写数据
 
 获取 FileSystem 实例：
 
@@ -103,7 +103,7 @@ public static FileSystem get(URI uri, Configuration conf, String user) throws IO
 			
 其中 URI 类似 Hadoop 的 Path。
 
-#### 读取数据
+### 读取数据
 
 获取 **FileSystem** 实例后，在实例上调用 .path(Path p) 方法，返回 FSDataInputStream 类型。  
 .path() 方法参数如下：
@@ -139,7 +139,7 @@ public class FileSystemDoubleCat {	public static void main(String[] args) throw
 	}}
 ~~~
 	
-#### 写出数据
+### 写出数据
 
 同样，获取 **FileSystem** 实例后，在实例上有三个主要相关方法可以调用：
 
@@ -157,7 +157,7 @@ public class FileSystemDoubleCat {	public static void main(String[] args) throw
 	
 具体实现与写入类似。
 
-### 5.3 建立目录
+## 5.3 建立目录
 
 获取 **FileSystem** 实例后，可以使用如下方法创建目录：
 
@@ -166,9 +166,9 @@ public boolean mkdirs(Path f) throws IOException
 ~~~
 这个方法会创建所有的父目录，如果它们不存在。
 
-### *5.4 文件系统的查询*
+## *5.4 文件系统的查询*
 
-#### 文件/目录状态查询——FileStatus类
+### 文件/目录状态查询——FileStatus类
 
 可以查询文件/目录的文件长度，副本数量，修改时间，拥有者，权限信息，区块大小。代码示例如下：
 
@@ -194,7 +194,7 @@ stat.getGroup();
 stat.getPermission();			
 ~~~
 
-#### 列出目录内容——listStatus 方法
+### 列出目录内容——listStatus 方法
 
 该方法主要有三种使用方法：
 
@@ -224,7 +224,7 @@ public class ListStatus {	public static void main(String[] args) throws Excepti
 		for (Path p : listedPaths) {    		System.out.println(p);    	}
    	}
 }
-~~~#### 对一系列文件进行相同操作——globStatus() 方法
+~~~### 对一系列文件进行相同操作——globStatus() 方法
 
 globStatus() 方法结合通配符进行使用。参数如下：
 
@@ -258,7 +258,7 @@ public FileStatus[] globStatus(Path pathPattern, PathFilter filter) 	throws IOE
 </figure>
 
 
-#### 路径过滤器——PathFilter Interface
+### 路径过滤器——PathFilter Interface
 
 当你想要更 Customized 过滤掉一些文件，就需要用到 PathFilter 接口。 其中定义了一个 accept(Path path) 方法，可以进行实现。这个接口类似于 java.io.FileFilter。  
 
@@ -273,8 +273,13 @@ public class RegexExcludePathFilter implements PathFilter {	private final Strin
 	
 **注意：**路径过滤器仅能对在**文件名**上进行操作。
 
-#### 删除文件或者目录
+### 删除文件或者目录
 
 ~~~java
 public boolean delete(Path f, boolean recursive) throws IOException
 ~~~
+
+# 6. 数据流
+> 输入流；输出流；Coherence Model
+
+## 6.1 文件的读取
