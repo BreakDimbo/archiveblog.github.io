@@ -1,8 +1,7 @@
 ---
 layout: page
-title: About the Theme
-tags: [about, Jekyll, theme, moon]
+title: 精神角落
 date: 2016-03-21
 ---
 
-# 精神角落
+# <center>精神角落
