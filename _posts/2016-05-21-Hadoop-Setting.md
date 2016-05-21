@@ -554,8 +554,9 @@ dfs.replication 一般设为 3，但我们只有一个 Slave 节点，所以 dfs
 
 至此，就可以搭建一整套相对“完整”对 Hadoop 环境了。
 
+---
 
-*本文主要参考了以下资料：*  
+*本文主要参考了以下资料，感谢以下教程的作者：*  
   
 [官方教程](http://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html)
 
