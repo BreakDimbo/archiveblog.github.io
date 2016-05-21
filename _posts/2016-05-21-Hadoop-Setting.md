@@ -336,8 +336,10 @@ YARN 是从 MapReduce 中分离出来的，负责资源管理与任务调度。Y
 
 > 同样我们选择在 ~/.bashrc 中进行设置（vim ~/.bashrc，与 JAVA_HOME 的设置相似），在文件最前面加入如下单独一行:
 
-> 		export PATH=$PATH:/usr/local/hadoop/sbin:/usr/local/hadoop/bin
-添加后执行 source ~/.bashrc 使设置生效，生效后，在任意目录中，都可以直接使用 hdfs 等命令了。
+>
+	export PATH=$PATH:/usr/local/hadoop/sbin:/usr/local/hadoop/bin
+
+> 添加后执行 source ~/.bashrc 使设置生效，生效后，在任意目录中，都可以直接使用 hdfs 等命令了。
 
 ---
 
