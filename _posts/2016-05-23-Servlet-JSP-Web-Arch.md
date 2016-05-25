@@ -2,14 +2,14 @@
 layout: post
 Date: 2016-05-24
 title: JSP
-excerpt: "JSP的6个重要元素。如何写JSP"
+excerpt: "初步了解JSP"
 java: true
 comments: true
 tags: [Java, Servlet&JSP]
 ---
 
 # 总览
-1.1 为下列元素写 JSP 代码：  
+1.1 了解下列元素在 JSP 的呈现：  
 
 * 文本格式 
 * scripting elements
@@ -68,7 +68,7 @@ tags: [Java, Servlet&JSP]
 > Expression:  <%= %>  
 > Java expressions  
 > EL expressions  
-> actions  
+> Actions  
 
 过程：JSP (translated) -> MyJSP_jsp.java (compiles to) -> MyJSP_jsp.class (is loaded and init as ) -> MyJSP_jsp(**Servlet**)  
 
@@ -93,7 +93,7 @@ package foo;public class Counter {	private static int count;	public static sy
 
 ## 1.1 Page ***directive*** 
 
-> **directive** 是一种在翻译页面时向容器给出特殊指示的一种方式。  
+> **directive** 是一种在容器“翻译”页面时向容器给出特殊指示的一种方式。  
 > 包括三个种类：
 > 
 * page  
@@ -130,7 +130,7 @@ package foo;public class Counter {	private static int count;	public static sy
 <%= Counter.getCount() %>
 ~~~
 
-***注意：后面没有分号。%= 之间没有空格。  
+***注意：后面没有分号，%= 之间没有空格。  
 想象 = 的含义是将后面的语句当做参数放入 out.println(); 中。***
 
 ## 1.3 declaration
@@ -144,11 +144,13 @@ The page count is now:
 
 在 scriptlet 中声明的变量都是 local variable。因为容器将其中所有的代码都塞进了一个类似 doGet/doPost(*service()*) 的方法里。  
 
-所以我们需要某种办法使得 count 成为实例变量：使用 declaration:!
+所以我们需要某种办法使得 count 成为实例变量：**使用 declaration:!**
 
 	<%! int count=0; %>
 	
-既可以用于变量，也可以用于方法。所有在<%!...%>之间的都被放在类中，而不是 service method。也就是说可以声明静态成员。
+既可以用于变量，也可以用于方法。所有在<%!...%>之间的都被放在类中，而不是 service method。也就是说可以声明静态成员。  
+
+JSP->servlet 的“翻译”如下所示：
 
 <figure>
 	<a href="http://breakdimbo.github.io/images/JSP-Declaration.png"><img src="http://breakdimbo.github.io/images/JSP-Declaration.png"></a>
@@ -175,15 +177,11 @@ Object|page
 ~~~html
 <%@ page import="java.util.*" %>
 <html><body>
-
 The friend who share your hobby of
-
 <%
 request.getParameter("hobby");
 %>
-
 are<br>
-
 <%
 ArrayList al = (ArrayList) request.getAttribute("names");
 %>
@@ -197,7 +195,7 @@ while(it.hasNext()){ %>
 ~~~
 
 *关于注释：  
-<!-- HTML comment -->  
+\<!-- HTML comment -->  
 <%-- JSP comment --%>*
 
 ---
@@ -207,15 +205,16 @@ while(it.hasNext()){ %>
 * jspInit()：可以 override。调用自 init()
 * jspDestroy()：同上
 * _jspService()：不能 override。调用自 service()
+*下划线意味着不能 override*
 
 >javax.servlet.jsp.JspPage  
 >javax.servlet.jsp.HttpJspPage
 
-*下划线意味着不能 override*
+
 
 ## jspInit()
 
-配置 JSP 的初始化参数：与 servlet 类似，唯一的区别就是需要在 xml 里的<servlet>项下添加**\<jsp-file>**
+配置 JSP 的初始化参数：与 servlet 类似，唯一的区别就是需要在 xml 里的<servlet>项下添加\<jsp-file>
 
 ~~~xml
 <web-app ...> 
@@ -229,7 +228,7 @@ while(it.hasNext()){ %>
 重写 jspInit()：
 
 ~~~java
-<%!public void jspInit() {	ServletConfig sConfig = getServletConfig();	String emailAddr = sConfig.getInitParameter(“email”);	ServletContext ctx = getServletContext();	ctx.setAttribute(“mail”, emailAddr); 
+<%!public void jspInit() {	ServletConfig sConfig = getServletConfig();	String emailAddr = sConfig.getInitParameter("email");	ServletContext ctx = getServletContext();	ctx.setAttribute("mail", emailAddr); 
 }%>
 
 ~~~
@@ -240,7 +239,7 @@ while(it.hasNext()){ %>
 
 属性的获得，如下表对应所示：
 
-   |In a Servlet|In a JSP(使用内置对象)
+ - |In a Servlet|In a JSP(使用内置对象)
 ---|------------|-------------------------------
 Application|**getServletContext**.setAttribute();|**application**.setAttribute();
 Request|**request**.setAttribute();|**request**.setAttribute();
@@ -261,13 +260,13 @@ Page|Does note apply!|**pageContext**.setAttribute();
 * 设置一个 page-scoped 属性：
 
 ~~~java
-<% Float one = new Float(42.5); %><% pageContext.setAttribute(“foo”, one); %>
+<% Float one = new Float(42.5); %><% pageContext.setAttribute("foo", one); %>
 ~~~
 
 * 获取一个 page-scoped 属性：
 
 ~~~java
-<%= pageContext.getAttribute(“foo”); %>
+<%= pageContext.getAttribute("foo"); %>
 ~~~
 
 * 使用 pageContext 设置一个 session-scoped 属性：
@@ -280,25 +279,25 @@ Page|Does note apply!|**pageContext**.setAttribute();
 * 使用 pageContext 获取一个 session-scoped 属性：
 
 ~~~java
-<%= pageContext.getAttribute(“foo”, PageContext.SESSION_SCOPE) %> 
-// (Which is identical to: <%= session.getAttribute(“foo”) %> )
+<%= pageContext.getAttribute("foo", PageContext.SESSION_SCOPE) %> 
+// (Which is identical to: <%= session.getAttribute("foo") %> )
 ~~~
 
 * 使用 pageContext 获取一个 application-scoped 属性：
 
 ~~~java
 Email is:
-<%= pageContext.getAttribute(“mail”, PageContext.APPLICATION_SCOPE) %> 
+<%= pageContext.getAttribute("mail", PageContext.APPLICATION_SCOPE) %> 
 
 // Within a JSP, the code above is identical to:
 Email is:
-<%= application.getAttribute(“mail”) %>
+<%= application.getAttribute("mail") %>
 ~~~
 
 * 当你不知道一个属性属于哪个 scope 时，使用 pageContext 的 find 进行查找：
 
 ~~~java
-<%= pageContext.findAttribute(“foo”) %>
+<%= pageContext.findAttribute("foo") %>
 ~~~
 
 *查找顺序是： pageContext->request->session->application*
@@ -333,14 +332,14 @@ errorPage|De nes a URL to the resource to which uncaught Throwables should be se
 定义了 JSP 可利用的 tag 库。
 
 ~~~java
-<%@ taglib tagdir=”/WEB-INF/tags/cool” pre x=”cool” %>
+<%@ taglib tagdir="/WEB-INF/tags/cool" pre x="cool" %>
 ~~~
 
 * include directive
 定义了在"翻译"时需要被添加进当前页面中的文本和代码。可以让你重复利用某些功能，比如标准页面标题，导航栏，等等。
 
 ~~~java
-<%@ include  le=”wickedHeader.html” %>
+<%@ include  le="wickedHeader.html" %>
 ~~~
 
 ---
@@ -357,7 +356,7 @@ Please contact: ${applicationScope.mail}
 
 等价于：  
 Java expression：  
-Please contact: <%= application.getAttribute(“mail”) %>
+Please contact: <%= application.getAttribute("mail") %>
 
 > EL 的格式一般是 ${ }.
 
@@ -407,11 +406,11 @@ Please contact: <%= application.getAttribute(“mail”) %>
 
 标准形式：
 
-	<jsp:include page=”wickedFooter.jsp” />
+	<jsp:include page="wickedFooter.jsp" />
 	
 非标准形式：
 
-	<c:set var=”rate” value=”32” />
+	<c:set var="rate" value="32" />
 
 
 
