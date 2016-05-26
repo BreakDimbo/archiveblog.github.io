@@ -402,7 +402,7 @@ Please contact: <%= application.getAttribute("mail") %>
 
 ---
 
-# 7 Action
+# 7. Action
 
 标准形式：
 
