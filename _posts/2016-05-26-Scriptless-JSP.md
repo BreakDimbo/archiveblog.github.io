@@ -2,7 +2,7 @@
 layout: post
 title: Scriptless JSP
 date: 2016-05-26
-excerpt: Exoression language; \<jsp:useBean, getProperty, setProperty>; \<jsp:include, forward, param>
+excerpt: "Exoression language; \<jsp:useBean, getProperty, setProperty>; \<jsp:include, forward, param>"
 java: true
 comments: true
 tag: [java, Servlet&JSP]
