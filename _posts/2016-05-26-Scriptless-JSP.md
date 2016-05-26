@@ -2,7 +2,7 @@
 layout: post
 title: Scriptless JSP
 date: 2016-05-26
-excerpt: "Exoression language; \<jsp:useBean, getProperty, setProperty>; \<jsp:include, forward, param>"
+excerpt: "Expression language; <jsp:useBean, getProperty, setProperty>; <jsp:include, forward, param>"
 java: true
 comments: true
 tag: [java, Servlet&JSP]
@@ -42,6 +42,8 @@ jsp:param
 * 学会导入位于另一个页面的 JSP 片段：  
 include directive  
 \<jsp:include/> action
+
+---
 
 
 # 1. \<jsp:useBean/> 以及相关操作的初步使用 
