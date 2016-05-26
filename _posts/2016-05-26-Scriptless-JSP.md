@@ -141,8 +141,8 @@ synchronized (request) {	person = (foo.Person)\_jspx_page_context.getAttribute(
 <jsp:useBean id="person" type="foo.Person" class="foo.Employee" scope="page">
 ~~~
 
-==foo.Person== person = null;// code to get the person attribute   
-if (person == null){  	person = new ==foo.Employee()==;
+**foo.Person** person = null;// code to get the person attribute   
+if (person == null){  	person = new **foo.Employee()**;
 }
 
 **注意：所以 class 对应的参数必须是 type 对应的参数的子类或者实现**  
@@ -235,7 +235,7 @@ value="<%= request.getParameter("userName") %>" />
 <%= ((foo.Person) request.getAttribute("person")).getDog().getName() %>
 ~~~
 
-> ${==person==.dog.name}   
+> ${**person**.dog.name}   
 第一个部分是内置 map（映射）对象  
 或者是在四个 scope（page, request, appliction, session）里的 attributes。
 
@@ -277,7 +277,7 @@ value="<%= request.getParameter("userName") %>" />
 
 
 
-==如果没有引号，容器会寻找绑定在 Ambient 下的 **Attribute**。而不是将其当做 musicMap 的 Map key。==
+**如果没有引号，容器会寻找绑定在 Ambient 下的 Attribute。而不是将其当做 musicMap 的 Map key。**
 
 ~~~java
 java.util.Map musicMap = new java.util.HashMap(); 
@@ -491,12 +491,12 @@ Contact us at: ${initParam.mainEmail}
 
 
 **include directive 发生在「翻译」的时候，既由容器将所有需要的代码先行复制到 JSP 源码中；  
-使用==file==；  
+使用 file；  
 对位置敏感**
 
   
 **而\<jsp:include/>则发生在 runtime，既在运行时将 Header.jsp 产生的 response 插入到当前页面；  
-使用==page==；  
+使用 page；  
 对位置不敏感**
 
 > HD p441
