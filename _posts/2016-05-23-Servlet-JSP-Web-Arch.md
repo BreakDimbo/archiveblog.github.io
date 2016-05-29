@@ -339,7 +339,7 @@ errorPage|De nes a URL to the resource to which uncaught Throwables should be se
 定义了在"翻译"时需要被添加进当前页面中的文本和代码。可以让你重复利用某些功能，比如标准页面标题，导航栏，等等。
 
 ~~~java
-<%@ include  le="wickedHeader.html" %>
+<%@ include file="wickedHeader.html" %>
 ~~~
 
 ---

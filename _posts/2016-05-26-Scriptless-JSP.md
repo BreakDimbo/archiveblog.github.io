@@ -123,7 +123,7 @@ synchronized (request) {	person = (foo.Person)\_jspx_page_context.getAttribute(
 <jsp:setProperty name="person" property="name" value="Fred" />
 ~~~
 
-## 1.4 \<jsp:javaBean/>可以有一个 body
+## 1.4 \<jsp:useBean/>可以有一个 body
 
 ~~~html
 <jsp:useBean id="person" class="foo.Person" scope="page" >
@@ -133,7 +133,7 @@ synchronized (request) {	person = (foo.Person)\_jspx_page_context.getAttribute(
 
 **注意：第一行最后没有 /。第二行相当于放在一个条件语句中，既当 id 对应的对象不存在时，执行第二行的代码。**
 
-## 1.5 \<jsp:javaBean/>多态的使用
+## 1.5 \<jsp:useBean/>多态的使用
 
 > HD p389
 
@@ -159,7 +159,7 @@ type 是你要声明什么
 class 是你要实例化什么***
 
 
-> Note: *\<jsp:javaBean/>和\<jsp:getProperty/>默认的 scope 是 page*
+> Note: *\<jsp:useBean/>和\<jsp:getProperty/>默认的 scope 是 page*
 
 
 ## 1.6 如何直接从 request 到 JSP 而不经过 servlet？
