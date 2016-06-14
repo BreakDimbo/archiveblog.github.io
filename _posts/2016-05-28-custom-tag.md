@@ -248,7 +248,10 @@ JSP：
 tag Handler:
 
 ~~~html
-String[] movies = {“Monsoon Wedding”, “Saved!”, “Fahrenheit 9/11”};public void doTag() throws JspException, IOException { for(int i = 0; i < movies.length; i++) {getJspContext().setAttribute(“movie”, movies[i]);getJspBody().invoke(null); }}
+String[] movies = {“Monsoon Wedding”, “Saved!”, “Fahrenheit 9/11”};public void doTag() throws JspException, IOException { 
+	for(int i = 0; i < movies.length; i++) 
+	{	getJspContext().setAttribute(“movie”, 	movies[i]);	getJspBody().invoke(null); 
+	}} 
 ~~~
 
 ## 2.4 一个带有属性的 Simple tag
