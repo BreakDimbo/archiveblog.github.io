@@ -1,8 +1,8 @@
 ---
 layout: post
 date: 2016-06-18
-title: 面向对象
-excerpt: 
+title: Hibernate
+excerpt: "Hibernate"
 java: true
 comments: true
 tag: [Java, Hibernate]
