@@ -3,7 +3,7 @@ layout: post
 date: 2016-07-13
 title: 片刻温柔
 excerpt: "Kind of Blue"
-life: true
+blog: true
 comments: true
 tag: [日常]
 ---
