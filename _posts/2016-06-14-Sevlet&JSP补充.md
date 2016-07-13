@@ -2,7 +2,7 @@
 layout: post
 date: 2016-06-14
 title: Sevlet&JSP 补充
-excerpt: 
+excerpt: "补充"
 java: true
 comments: true
 tag: [Java, JSP&Servlet]

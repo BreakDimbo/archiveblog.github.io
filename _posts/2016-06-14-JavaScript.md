@@ -2,7 +2,7 @@
 layout: post
 date: 2016-06-14
 title: JavaScript
-excerpt: 
+excerpt: “Basic JavaScript”
 java: true
 comments: true
 tag: [JavaScript]

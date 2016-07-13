@@ -2,7 +2,7 @@
 layout: post
 date: 2016-06-14
 title: SQL&Oracle
-excerpt: 
+excerpt: “Basic SQL”
 java: true
 comments: true
 tag: [Java, SQL]
